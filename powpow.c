@@ -1,15 +1,19 @@
 #include <stdio.h>
-long long int fact(long long int n)
+#define K 1000000007
+long long unsigned fact(int start, int end)
 {
-	long long int i,f=1;
-	for(i=2;i<=n;i++)
+	int i;
+	long long unsigned f=start;
+	for(i=start+1;i<=end;i++)
 	{
-		f = (f*i)%1000000007;
+		f *= i;
+		printf("%d %d=%llu\n",start,i,f);
 	}
 	return f;
 }
-long long int power(long long int a, long long int b)
+long long int power(long long unsigned a, long long unsigned b)
 {
+	printf("%lld ^ %lld\n",a,b);
 	long long int p=1;
 	int r;
 	while(b>0)
@@ -17,9 +21,10 @@ long long int power(long long int a, long long int b)
 		r = b%2;
 		if(r == 1)
 		{
-			p = (p*a)%1000000007;
+			p = (p*a)%K;
 		}
-		a = (a*a)%1000000007;
+		printf("%lld\n",p);
+		a = (a*a)%K;
 		b = b/2;
 	}
 	return p;
@@ -27,14 +32,13 @@ long long int power(long long int a, long long int b)
 int main()
 {
 	int i,t;
-	long long int a,b,n,ex,factn;
+	long long unsigned a,b,n,ex;
 	scanf("%d",&t);
 	for(i=0;i<t;i++)
 	{
-		scanf("%lld %lld %lld",&a,&b,&n);
-		factn = fact(n);
-		ex = fact(2*n)/(factn*factn);
-		printf("%lld\n", power(a,power(ex,b)));
+		scanf("%llu %llu %llu",&a,&b,&n);
+		ex = fact(n+1,2*n)/fact(1,n);
+		printf("%llu\n", power(a,power(ex,b)));
 	}
 	return 0;
 }
