@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 #define GI(a) scanf("%d",&a)
 #define PI(a) printf("%d\n",a)
 #define REP(i,N) for(i=0;i<(N);i++)
