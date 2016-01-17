@@ -1,33 +1,35 @@
 #include <stdio.h>
-#define MAX_HEIGHT
-char winners[MAX_HEIGHT];
-int k,l,m;
-char predict_winner(int n)
-{
-	if(n == 0)
-		return 'B';
-	if(winners[n] == 0)
-	{
-		if(predict_winner(n-2) == 'A')
-			winners[n] = 
-		winner[1] = predict_winner(n-k, next_player);
-		winner[2] = predict_winner(n-l, next_player);
-		winners[n] = (winner[0] == winner[1])
-	}
-}
+#include <stdbool.h>
+#define GI(a) scanf("%d",&a)
+#define PI(a) printf("%d\n",(a))
+#define REP(i,N) for(i=0;i<(N);i++)
+#define REP2(i,N) for(;i<(N);i++)
+#define PC(c) printf("%c",c)
+#define NEWLINE printf("\n")
+#define A 'A'
+#define B 'B'
+typedef enum {False,True}boolean;
+boolean flip[1000001];
 int main()
 {
-	scanf("%d %d %d",&k,&l,&m);
-	int i,n, winner;
-	for(i=0;i<MAX_HEIGHT;i++)
+	int k,l,m,n,i;
+	GI(k);GI(l);GI(m);
+	flip[0] = True;
+	flip[1] = flip[k] = flip[l] = False;
+	i=2;
+	REP2(i,1000001)
 	{
-		winners[i] = 0;
+		if(i==k || i==l)
+			continue;
+		if(flip[i-1] || (i>k && flip[i-k]) || (i>l && flip[i-l]))
+			flip[i] = False;
+		else flip[i] = True;
 	}
-	for(i=0;i<m;i++)
+	REP(i,m)
 	{
-		scanf("%d",&n);
-		printf("%c", predict_winner(n));
+		GI(n);
+		PC(flip[n]+'A');
 	}
-	printf("\n");
+	NEWLINE;
 	return 0;
 }
