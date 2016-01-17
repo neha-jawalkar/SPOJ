@@ -3,7 +3,7 @@ int main()
 {
 	int t,i;
 	double av;
-	long int num,den,rem;
+	int num,den,rem;
 	scanf("%d",&t);
 	for(i=0;i<t;i++)
 	{
@@ -21,7 +21,7 @@ int main()
 			num = den;
 			den = rem;
 		}while(den > 0);
-		printf("%ld\n",10000/num);
+		printf("%d\n",10000/num);
 	}
 	return 0;
 }
