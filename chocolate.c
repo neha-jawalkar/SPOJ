@@ -1,41 +1,59 @@
 #include <stdio.h>
-typedef enum
-{
-	HORIZONTAL, VERTICAL
-}type;
-type lines[1001][1001];
-int next_free_index[1001];
+#define GI(a) scanf("%d",&a)
+#define PI(a) printf("%d\n",(a))
+#define REP(i,N) for(i=0;i<(N);i++)
+#define REPINV(i,N) for(i=(N);i>0;i--)
+#define REP2(i,N) for(;i<(N);i++)
+int lines[2000][2];
 int main()
 {
-	int t,m,n,i,j,k,cost,total_cost;
-	int break_count[2];
-	scanf("%d",&t);
-	for(i=0;i<t;i++)
+	int i,j,k,t,m,n,temp[2],count[2],cost;
+	GI(t);
+	REP(i,t)
 	{
-		break_count[0] = break_count[1] = 0;
-		total_cost = 0;
-		for(j=0;j<=1000;j++)
-			next_free_index[j] = 0;
-		scanf("%d %d",&m,&n);
-		for(j=0;j<m-1;j++)
+		GI(m);
+		GI(n);
+		REP(j,m-1) 
 		{
-			scanf("%d",&cost);
-			lines[cost][next_free_index[cost]] = HORIZONTAL;
-			next_free_index[cost]++;
+			GI(lines[j][0]);
+			lines[j][1] = 0;
 		}
-		for(j=m-1;j<m+n-2;j++)
+		REP2(j,m+n-2)
 		{
-			scanf("%d",&cost);
-			lines[cost][next_free_index[cost]] = VERTICAL;	
-			next_free_index[cost]++;		
+			GI(lines[j][0]);
+			lines[j][1] = 1;
 		}
-		for(j=1000;j>=0;j--)
+		REP(j,m+n-3)
 		{
-			for(k=0;k<next_free_index[j];k++)
+			k=j+1;
+			REP2(k,m+n-2)
 			{
-				total_cost+= (break_count[(lines[j][k] + 1)%2]+1)*j;
-				break_count[lines[j][k]]++;			}
+				if(lines[j][0] < lines[k][0])
+				{
+					temp[0] = lines[j][0];
+					temp[1] = lines[j][1];
+					lines[j][0] = lines[k][0];
+					lines[j][1] = lines[k][1];
+					lines[k][0] = temp[0];
+					lines[k][1] = temp[1];
+				}
+			}
 		}
-		printf("%d\n",total_cost);
+		count[0] = count[1] = cost = 0;
+		REP(j,m+n-2)
+		{	
+			if(lines[j][1] == 0)
+			{
+				cost += lines[j][0]*(count[1]+1);
+				count[0]++;
+			}
+			else 
+			{
+				cost += lines[j][0]*(count[0]+1);
+				count[1]++;
+			}
+		}
+		printf("%d\n",cost);
 	}
+	return 0;
 }
