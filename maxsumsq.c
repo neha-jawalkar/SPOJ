@@ -1,34 +1,80 @@
 #include <stdio.h>
-int a[100000];
-int sum[100000];
-int main()
+#include <string.h>
+#define GI(a) scanf("%d",&a)
+#define GLL(a) scanf("%lld",&a)
+#define PI(a) printf("%d\n",(a))
+#define PLL(a) printf("%lld\n",a)
+#define PS(s) printf("%s\n",s)
+#define REP(i,N) for(i=0;i<(N);i++)
+#define REP2(i,N) for(;i<(N);i++)
+#define TESTS I t,i;GI(t);REP(i,t)
+#define PC(c) printf("%c\n",c)
+#define NEWLINE printf("\n")
+#define EXIT return 0
+typedef int I;
+typedef long long LL;
+#define START I main()
+START
 {
-	int t,i;
-	scanf("%d",&t);
-	for(i=0;i<t;i++)
-	{
-		int n,j,b,c, max_sum;
-		unsigned long long count = 0;
-		scanf("%d",&n);
-		scanf("%d",&a[0]);
-		sum[0] = a[0];
-		max_sum = sum[0];
-		count = 1;
-		for(j=1;j<n;j++)
+	I a;
+	LL c,n,m,j,s[2],x;
+	TESTS
+	{	
+		GLL(n);
+		GI(a);
+		s[0]=a;
+		s[1]=1;
+		m=s[0];
+		c=s[1];
+		j=1;
+		REP2(j,n)
 		{
-			scanf("%d",&a[j]);
-			b = sum[j-1] + a[j];
-			sum[j] = b > a[j] ? b : a[j];
-			c = (b == a[j]) + 1;
-			if(sum[j] > max_sum)
+			GI(a);
+			x=s[0]+a;
+			if(x>a)
 			{
-				max_sum = sum[j];
-				count = 1;
+				s[0]=x;
+				if(x>m)
+				{
+					m=s[0];
+					c=s[1];
+				}
+				else if(x==m)
+				{
+					c=c+s[1];
+				}
 			}
-			else if(sum[j] == max_sum)
-				count = count + c;
+			else if(x==a)
+			{
+				s[0]=x;
+				s[1]++;
+				if(x>m)
+				{
+					m=s[0];
+					c=s[1];
+				}
+				else if(x==m)
+				{
+					c=c+s[1];
+				}
+			}
+			else
+			{
+				s[0]=a;
+				s[1]=1;
+				if(a>m)
+				{
+					m=s[0];
+					c=s[1];
+				}
+				else if(a==m)
+				{
+					
+					c=c+s[1];
+				}
+			}
 		}
-		printf("%d %llu\n",max_sum, count);
+		printf("%lld %lld\n",m,c);
 	}
-	return 0;
+	EXIT;
 }
