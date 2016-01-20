@@ -1,67 +1,89 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
-int main()
+#define GI(a) scanf("%d",&a)
+#define GLL(a) scanf("%lld",&a)
+#define GC(a) a=getchar()
+#define PI(a) printf("%d\n",(a))
+#define PLL(a) printf("%lld\n",a)
+#define PS(s) printf("%s\n",s)
+#define REP(i,N) for(i=0;i<(N);i++)
+#define REP2(i,N) for(;i<(N);i++)
+#define PC(c) printf("%c\n",c)
+#define NEWLINE printf("\n")
+#define EXIT return 0
+#define START I main()
+
+typedef int I;
+typedef long long LL;
+typedef char C;
+typedef char* CC;
+typedef int* II;
+
+START
 {
-	long n,i,j = 0;
-	int is_match = 0;
-	char* needle;
-	char haystack;
-	int* partial_match_table;
-	while((scanf("%ld",&n)==1))
+	C h;
+	CC n;
+	I l,i,j,m;
+	II lps;
+	for(;GI(l)!=-1;)
 	{
-		needle = (char*)malloc((n+1)*sizeof(char));
-		scanf("%s",needle);
-		partial_match_table = (int*)malloc(n*sizeof(int));
-		partial_match_table[0] = 0;
-		for(i=1;i<n;i++)
+		n = (C*)malloc((l+1)*sizeof(C));
+		lps = (I*)malloc(l*sizeof(I));
+		scanf("%s",n);
+		lps[0]=0;
+		m=0;
+		i=1;
+		REP2(i,l)
 		{
-			is_match = (needle[i] == needle[j]);
-			if(is_match)
+			if(n[i]==n[m])
 			{
-				partial_match_table[i] = partial_match_table[i-1] + 1;
-				j++;
+				m++;
+				lps[i] = m;
 			}
 			else
 			{
-				j = 0;
-				is_match = (needle[i] == needle[j]);
-				if(is_match)
+				if(m!=0)
 				{
-					partial_match_table[i] = 1;
-					j = 1;
+					m=lps[m-1];
+					i--;
 				}
-				else partial_match_table[i] = 0;
-			}
-		}
-		i=0;
-		j=0;
-		getchar();
-		haystack = getchar();
-		while(haystack != '\n' && i < n)
-		{
-			if(needle[i] == haystack)
-			{
-				i++;
-				j++;
-				haystack = getchar();
-			}
-			if(i == n)
-			{
-				printf("%ld\n",j-n);
-				i = partial_match_table[i-1];
-			}
-			else if(needle[i] != haystack)
-			{
-				if(i > 0)
-					i = partial_match_table[i-1];
 				else
 				{
-					haystack = getchar();
-					j++;
-				} 
-			} 
+					lps[i]=0;
+				}
+			}
 		}
-		printf("\n");
+		GC(h);
+		i=0;
+		j=0;
+		for(GC(h);h!='\n';)
+		{
+			if(h==n[i])
+			{
+				if(i==l-1)
+				{
+					PI(j-l+1);
+					i=lps[i];
+				}
+				else i++;
+				j++;
+				GC(h);
+			}
+			else
+			{
+				if(i)
+				{
+					i=lps[i-1];
+				}
+				else
+				{
+					j++;
+					GC(h);
+				}
+			}
+		}
+		NEWLINE;	
 	}
-	return 0;
+	EXIT;
 }
